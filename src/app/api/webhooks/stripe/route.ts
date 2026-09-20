@@ -3,6 +3,12 @@ import type Stripe from "stripe";
 import { getStripe } from "@/lib/stripe";
 import { createOrder, type PrintifyOrderLineItem } from "@/lib/printify";
 
+function validPhone(phone: string | null | undefined): string | undefined {
+  if (!phone) return undefined;
+  const digits = phone.replace(/[^\d]/g, "");
+  return digits.length >= 7 && digits.length <= 15 ? phone : undefined;
+}
+
 export async function POST(request: Request) {
   const signature = request.headers.get("stripe-signature");
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -21,7 +27,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
-  if (event.type === "checkout.session.completed") {
+  if (event.type === "checkout.session.completed" && event.livemode) {
     const session = event.data.object as Stripe.Checkout.Session;
     const lineItems: PrintifyOrderLineItem[] = JSON.parse(
       session.metadata?.line_items ?? "[]"
@@ -39,7 +45,7 @@ export async function POST(request: Request) {
           first_name: firstName || "Customer",
           last_name: rest.join(" ") || "-",
           email: session.customer_details?.email ?? "",
-          phone: session.customer_details?.phone ?? undefined,
+          phone: validPhone(session.customer_details?.phone),
           country: address.country ?? "US",
           region: address.state ?? undefined,
           address1: address.line1,

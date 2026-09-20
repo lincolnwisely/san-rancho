@@ -21,6 +21,7 @@ export interface PrintifyProduct {
   images: PrintifyImage[];
   variants: PrintifyVariant[];
   visible: boolean;
+  tags: string[];
 }
 
 export interface PrintifyProductsResponse {
