@@ -4,6 +4,8 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { SITE_URL } from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,8 +18,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "San Rancho",
-  description: "San Rancho — minimalist tees.",
+  metadataBase: new URL(SITE_URL),
+  title: { default: "San Rancho", template: "%s | San Rancho" },
+  description: "San Rancho - minimalist tees commemorating camps, cults and corporate hoo-ha.",
+  openGraph: {
+    siteName: "San Rancho",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -30,6 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <CartProvider>
           <Header />
           {children}
+          <Footer />
         </CartProvider>
         <Analytics />
       </body>
