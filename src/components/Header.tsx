@@ -12,7 +12,7 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-foreground/10 bg-background/90 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center">
-          <Image src={logo} alt="San Rancho" className="h-24 w-auto sm:h-16" priority />
+          <Image src={logo} alt="San Rancho" className="h-18 w-auto sm:h-16" priority />
         </Link>
         <Link
           href="/cart"
