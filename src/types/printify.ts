@@ -12,6 +12,19 @@ export interface PrintifyVariant {
   is_enabled: boolean;
   is_available: boolean;
   is_default: boolean;
+  options: number[]; // option value ids
+}
+
+export interface PrintifyOptionValue {
+  id: number;
+  title: string;
+  colors?: string[]; // hex, present on color options
+}
+
+export interface PrintifyOption {
+  name: string;
+  type: string; // "color" | "size" | ...
+  values: PrintifyOptionValue[];
 }
 
 export interface PrintifyProduct {
@@ -20,6 +33,7 @@ export interface PrintifyProduct {
   description: string;
   images: PrintifyImage[];
   variants: PrintifyVariant[];
+  options: PrintifyOption[];
   visible: boolean;
   tags: string[];
 }

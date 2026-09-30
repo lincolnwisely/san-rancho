@@ -2,7 +2,11 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import type { PrintifyImage, PrintifyProduct } from "@/types/printify";
+import type {
+  PrintifyImage,
+  PrintifyOption,
+  PrintifyProduct,
+} from "@/types/printify";
 import { useCart } from "@/lib/cart-context";
 import { getVariantImages } from "@/lib/printify";
 import { formatPrice } from "@/lib/format";
@@ -81,9 +85,49 @@ export function ProductDetail({
     [product, variantId]
   );
 
+  // Only show option values that exist on an enabled variant, and hide
+  // options with a single choice (e.g. "One size").
+  const options = useMemo(
+    () =>
+      product.options
+        .map((o) => ({
+          ...o,
+          values: o.values.filter((v) =>
+            variants.some((variant) => variant.options.includes(v.id))
+          ),
+        }))
+        .filter((o) => o.values.length > 1),
+    [product.options, variants]
+  );
+
+  // Variant with `valueId` that keeps the current selection for other options.
+  const findVariant = (option: PrintifyOption, valueId: number) => {
+    const others = (selected?.options ?? []).filter(
+      (id) => !option.values.some((v) => v.id === id)
+    );
+    return variants.find(
+      (v) =>
+        v.options.includes(valueId) &&
+        others.every((id) => v.options.includes(id))
+    );
+  };
+
+  // If the combination doesn't exist (e.g. size not offered in this color),
+  // fall back to any variant with the chosen value.
+  const selectValue = (option: PrintifyOption, valueId: number) => {
+    const next =
+      findVariant(option, valueId) ??
+      variants.find((v) => v.options.includes(valueId));
+    if (next) setVariantId(next.id);
+  };
+
   return (
     <div className="mx-auto grid max-w-5xl flex-1 grid-cols-1 gap-12 px-6 py-16 md:grid-cols-2">
-      <ProductGallery key={variantId} images={images} alt={product.title} />
+      <ProductGallery
+        key={images.map((img) => img.src).join()}
+        images={images}
+        alt={product.title}
+      />
 
       <div className="flex flex-col gap-6">
         <div>
@@ -101,28 +145,48 @@ export function ProductDetail({
           </p>
         ) : null}
 
-        {variants.length > 1 ? (
-          <div>
-            <label
-              htmlFor="variant"
-              className="mb-2 block text-xs tracking-wide text-foreground/60 uppercase"
-            >
-              Option
-            </label>
-            <select
-              id="variant"
-              value={variantId}
-              onChange={(e) => setVariantId(Number(e.target.value))}
-              className="w-full border border-foreground/20 bg-transparent px-3 py-2 text-sm"
-            >
-              {variants.map((v) => (
-                <option key={v.id} value={v.id}>
-                  {v.title}
-                </option>
-              ))}
-            </select>
-          </div>
-        ) : null}
+        {options.map((option) => {
+          const current = option.values.find((v) =>
+            selected?.options.includes(v.id)
+          );
+          const isColor = option.type === "color";
+
+          return (
+            <fieldset key={option.name}>
+              <legend className="mb-2 text-xs tracking-wide text-foreground/60 uppercase">
+                {isColor ? "Color" : "Size"}
+                {current ? (
+                  <span className="text-foreground/40"> — {current.title}</span>
+                ) : null}
+              </legend>
+              <div className="flex flex-wrap gap-2">
+                {option.values.map((value) => {
+                  const active = value.id === current?.id;
+                  const available = !!findVariant(option, value.id);
+                  return (
+                    <button
+                      key={value.id}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => selectValue(option, value.id)}
+                      className={`flex items-center gap-2 border px-3 py-2 text-sm ${
+                        active ? "border-accent" : "border-foreground/20"
+                      } ${available ? "" : "opacity-40"}`}
+                    >
+                      {isColor ? (
+                        <span
+                          className="h-4 w-4 shrink-0 rounded-full border border-foreground/20"
+                          style={{ backgroundColor: value.colors?.[0] }}
+                        />
+                      ) : null}
+                      {value.title}
+                    </button>
+                  );
+                })}
+              </div>
+            </fieldset>
+          );
+        })}
 
         <button
           type="button"
