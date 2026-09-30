@@ -18,8 +18,8 @@ export default function PrivacyPage() {
           <p>
             When you place an order we collect your name, email address,
             shipping address, phone number and payment details. We don&apos;t
-            have accounts, and we never see or store your full card number —
-            payment is handled by Stripe.
+            have accounts, and we never see or store your full card number.
+            Payment is handled by Stripe.
           </p>
         </section>
 

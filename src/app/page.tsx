@@ -42,7 +42,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
           {activeTag ? "No products with this tag." : "No products published yet. Check back soon."}
         </p>
       ) : (
-        <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 lg:grid-cols-3">
           {visibleProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

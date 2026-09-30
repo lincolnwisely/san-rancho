@@ -14,7 +14,7 @@ export default function AboutPage() {
         <p>San Rancho makes irreverent tees commemorating camps, cults and corporate hoo-ha.</p>
         <p>
           Every shirt is printed on demand after you order, so nothing is made
-          until it has a home. The gratification is not instant, but it is worth the wait. Orders ship to the United States and Canada.
+          until it has a home. Orders ship to the United States and Canada.
         </p>
       </div>
     </main>
