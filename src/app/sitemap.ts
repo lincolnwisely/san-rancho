@@ -1,12 +1,18 @@
 import type { MetadataRoute } from "next";
 import { getProducts } from "@/lib/printify";
 import { SITE_URL } from "@/lib/site";
+import { COLLECTIONS } from "@/lib/collections";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const products = await getProducts();
 
   return [
     { url: SITE_URL, changeFrequency: "weekly", priority: 1 },
+    ...COLLECTIONS.map((collection) => ({
+      url: `${SITE_URL}/collections/${collection.slug}`,
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+    })),
     ...products.map((product) => ({
       url: `${SITE_URL}/product/${product.id}`,
       changeFrequency: "weekly" as const,
