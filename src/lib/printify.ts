@@ -10,7 +10,14 @@ function requireEnv(name: string): string {
   return value;
 }
 
-async function printifyFetch<T>(path: string, init?: RequestInit): Promise<T> {
+// Storefront reads are cached for 5 minutes; checkout and order creation always hit Printify live.
+const STOREFRONT_REVALIDATE_SECONDS = 300;
+
+async function printifyFetch<T>(
+  path: string,
+  init?: RequestInit,
+  { cached = false }: { cached?: boolean } = {}
+): Promise<T> {
   const token = requireEnv("PRINTIFY_API_TOKEN");
   const res = await fetch(`${API_BASE}${path}`, {
     ...init,
@@ -19,7 +26,9 @@ async function printifyFetch<T>(path: string, init?: RequestInit): Promise<T> {
       "Content-Type": "application/json",
       ...init?.headers,
     },
-    cache: "no-store",
+    ...(cached
+      ? { cache: "force-cache", next: { revalidate: STOREFRONT_REVALIDATE_SECONDS } }
+      : { cache: "no-store" }),
   });
 
   if (!res.ok) {
@@ -37,15 +46,22 @@ export async function getShopId(): Promise<string> {
 export async function getProducts(): Promise<PrintifyProduct[]> {
   const shopId = await getShopId();
   const data = await printifyFetch<PrintifyProductsResponse>(
-    `/shops/${shopId}/products.json`
+    `/shops/${shopId}/products.json`,
+    undefined,
+    { cached: true }
   );
   return data.data.filter((p) => p.visible);
 }
 
-export async function getProduct(productId: string): Promise<PrintifyProduct> {
+export async function getProduct(
+  productId: string,
+  { live = false }: { live?: boolean } = {}
+): Promise<PrintifyProduct> {
   const shopId = await getShopId();
   return printifyFetch<PrintifyProduct>(
-    `/shops/${shopId}/products/${productId}.json`
+    `/shops/${shopId}/products/${productId}.json`,
+    undefined,
+    { cached: !live }
   );
 }
 

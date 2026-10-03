@@ -1,9 +1,12 @@
 import type { MetadataRoute } from "next";
+import { connection } from "next/server";
 import { getProducts } from "@/lib/printify";
 import { SITE_URL } from "@/lib/site";
 import { COLLECTIONS } from "@/lib/collections";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Render at request time so the build never depends on the Printify API.
+  await connection();
   const products = await getProducts();
 
   return [

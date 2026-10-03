@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 
   for (const item of items) {
     if (!productCache.has(item.productId)) {
-      productCache.set(item.productId, await getProduct(item.productId));
+      productCache.set(item.productId, await getProduct(item.productId, { live: true }));
     }
     const product = productCache.get(item.productId)!;
     const variant = getEnabledVariants(product).find((v) => v.id === item.variantId);
