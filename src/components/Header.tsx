@@ -4,15 +4,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/lib/cart-context";
 import logo from "@/app/img/san-rancho_horizontal.svg";
+import { Banner } from "@/components/Banner";
 
 export function Header() {
   const { count } = useCart();
 
   return (
     <header className="sticky top-0 z-40 border-b border-foreground/10 bg-background/90 backdrop-blur">
+      <Banner>The store is not open yet. Check back soon.</Banner>
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center">
-          <Image src={logo} alt="San Rancho" className="h-22 w-auto sm:h-24" priority />
+          <Image src={logo} alt="San Rancho" className="h-18 w-auto" priority />
         </Link>
         <Link
           href="/cart"
