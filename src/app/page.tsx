@@ -3,7 +3,8 @@ import { getProducts } from "@/lib/printify";
 import { COLLECTIONS } from "@/lib/collections";
 import { ProductCard } from "@/components/ProductCard";
 
-export const dynamic = "force-dynamic";
+// Rebuilt in the background at most every 5 minutes, matching the Printify cache.
+export const revalidate = 300;
 
 const ROW_SIZE = 4;
 

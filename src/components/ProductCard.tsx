@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { PrintifyProduct } from "@/types/printify";
-import { getDefaultImage, getEnabledVariants } from "@/lib/printify";
+import { getDefaultImage, getEnabledVariants, getProductSlug } from "@/lib/printify";
 import { formatPrice } from "@/lib/format";
 
 export function ProductCard({ product }: { product: PrintifyProduct }) {
@@ -11,7 +11,7 @@ export function ProductCard({ product }: { product: PrintifyProduct }) {
   const minPrice = prices.length ? Math.min(...prices) : undefined;
 
   return (
-    <Link href={`/product/${product.id}`} className="group block">
+    <Link href={`/product/${getProductSlug(product)}`} className="group block">
       <div className="aspect-square w-full overflow-hidden bg-surface">
         {image ? (
           <Image

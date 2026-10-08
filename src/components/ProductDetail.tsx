@@ -122,7 +122,7 @@ export function ProductDetail({
   };
 
   return (
-    <div className="mx-auto grid max-w-5xl flex-1 grid-cols-1 gap-12 px-6 py-16 md:grid-cols-2">
+    <div className="mt-8 grid grid-cols-1 gap-12 md:grid-cols-2">
       <ProductGallery
         key={images.map((img) => img.src).join()}
         images={images}
