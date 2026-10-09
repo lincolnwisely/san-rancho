@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProducts } from "@/lib/printify";
-import { getCollection } from "@/lib/collections";
+import { COLLECTIONS, getCollection } from "@/lib/collections";
 import { ProductCard } from "@/components/ProductCard";
+import { BackLink } from "@/components/BackLink";
 
-export const dynamic = "force-dynamic";
+// Rebuilt in the background at most every 5 minutes, matching the Printify cache.
+export const revalidate = 300;
+
+export function generateStaticParams() {
+  return COLLECTIONS.map((c) => ({ slug: c.slug }));
+}
 
 export async function generateMetadata({
   params,
@@ -30,8 +36,9 @@ export default async function CollectionPage({
   const products = await collection.select(await getProducts());
 
   return (
-    <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-16">
-      <h1 className="mb-12 text-sm tracking-wide uppercase">
+    <main className="mx-auto w-full max-w-5xl flex-1 px-6 pt-8 pb-16">
+      <BackLink />
+      <h1 className="mt-8 mb-12 text-sm tracking-wide uppercase">
         {collection.title}
       </h1>
       {products.length === 0 ? (

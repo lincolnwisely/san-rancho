@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { connection } from "next/server";
-import { getProducts } from "@/lib/printify";
+import { getProducts, getProductSlug } from "@/lib/printify";
 import { SITE_URL } from "@/lib/site";
 import { COLLECTIONS } from "@/lib/collections";
 
@@ -17,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     })),
     ...products.map((product) => ({
-      url: `${SITE_URL}/product/${product.id}`,
+      url: `${SITE_URL}/product/${getProductSlug(product)}`,
       changeFrequency: "weekly" as const,
       priority: 0.8,
     })),

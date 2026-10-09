@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import type { PrintifyProduct, PrintifyProductsResponse } from "@/types/printify";
 
 const API_BASE = "https://api.printify.com/v1";
@@ -43,15 +44,52 @@ export async function getShopId(): Promise<string> {
   return requireEnv("PRINTIFY_SHOP_ID");
 }
 
-export async function getProducts(): Promise<PrintifyProduct[]> {
-  const shopId = await getShopId();
-  const data = await printifyFetch<PrintifyProductsResponse>(
-    `/shops/${shopId}/products.json`,
-    undefined,
-    { cached: true }
-  );
-  return data.data.filter((p) => p.visible);
+// Keep only the fields the storefront reads. The raw list (~3 MB, mostly
+// variants that aren't enabled) is over the 2 MB data cache limit.
+function toStorefrontProduct(p: PrintifyProduct): PrintifyProduct {
+  return {
+    id: p.id,
+    title: p.title,
+    description: p.description,
+    visible: p.visible,
+    tags: p.tags,
+    created_at: p.created_at,
+    images: p.images.map(({ src, variant_ids, position, is_default }) => ({
+      src,
+      variant_ids,
+      position,
+      is_default,
+    })),
+    variants: getEnabledVariants(p).map(
+      ({ id, title, price, is_enabled, is_available, is_default, options }) => ({
+        id,
+        title,
+        price,
+        is_enabled,
+        is_available,
+        is_default,
+        options,
+      })
+    ),
+    options: p.options.map(({ name, type, values }) => ({
+      name,
+      type,
+      values: values.map(({ id, title, colors }) => ({ id, title, colors })),
+    })),
+  };
 }
+
+export const getProducts = unstable_cache(
+  async (): Promise<PrintifyProduct[]> => {
+    const shopId = await getShopId();
+    const data = await printifyFetch<PrintifyProductsResponse>(
+      `/shops/${shopId}/products.json`
+    );
+    return data.data.filter((p) => p.visible).map(toStorefrontProduct);
+  },
+  ["printify-products"],
+  { revalidate: STOREFRONT_REVALIDATE_SECONDS }
+);
 
 export async function getProduct(
   productId: string,
@@ -101,6 +139,26 @@ export async function createOrder(params: {
       address_to: params.address,
     }),
   });
+}
+
+// Product URLs are "<title>-<id>" (e.g. "lucky-me-6aa6e108b02ef80c0b04de45").
+// The page looks products up by the id, so renaming a product doesn't break
+// old links; they redirect to the current slug.
+export function getProductSlug(product: Pick<PrintifyProduct, "id" | "title">) {
+  const name = product.title
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "") // strip accents
+    .replace(/['\u2019]/g, "") // "world's" -> "worlds"
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+  return name ? `${name}-${product.id}` : product.id;
+}
+
+// Printify ids have no hyphens, so the id is whatever follows the last one.
+// Bare ids (the old URL format) pass through unchanged.
+export function getProductIdFromSlug(slug: string) {
+  return slug.slice(slug.lastIndexOf("-") + 1);
 }
 
 export function getDefaultImage(product: PrintifyProduct): string | undefined {

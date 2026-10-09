@@ -41,6 +41,7 @@ export async function POST(request: Request) {
       price_data: {
         currency: "usd",
         unit_amount: variant.price,
+        tax_behavior: "exclusive" as const,
         product_data: {
           name: `${product.title} — ${variant.title}`,
         },
@@ -59,6 +60,7 @@ export async function POST(request: Request) {
   const session = await getStripe().checkout.sessions.create({
     mode: "payment",
     line_items: lineItems,
+    automatic_tax: { enabled: true },
     shipping_address_collection: { allowed_countries: ["US", "CA"] },
     phone_number_collection: { enabled: true },
     success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,

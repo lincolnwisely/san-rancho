@@ -9,7 +9,7 @@ import type {
 } from "@/types/printify";
 import { useCart } from "@/lib/cart-context";
 import { getVariantImages } from "@/lib/printify";
-import { formatPrice } from "@/lib/format";
+import { formatPrice, sanitizeDescription } from "@/lib/format";
 
 function ProductGallery({
   images,
@@ -122,7 +122,7 @@ export function ProductDetail({
   };
 
   return (
-    <div className="mx-auto grid max-w-5xl flex-1 grid-cols-1 gap-12 px-6 py-16 md:grid-cols-2">
+    <div className="mt-8 grid grid-cols-1 gap-12 md:grid-cols-2">
       <ProductGallery
         key={images.map((img) => img.src).join()}
         images={images}
@@ -140,9 +140,12 @@ export function ProductDetail({
         </div>
 
         {product.description ? (
-          <p className="text-sm leading-relaxed text-foreground/70">
-            {product.description.replace(/<[^>]*>/g, "")}
-          </p>
+          <div
+            className="space-y-3 text-sm leading-relaxed text-foreground/70 [&_ol]:list-decimal [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:pl-5"
+            dangerouslySetInnerHTML={{
+              __html: sanitizeDescription(product.description),
+            }}
+          />
         ) : null}
 
         {options.map((option) => {
