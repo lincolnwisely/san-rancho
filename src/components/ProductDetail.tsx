@@ -135,6 +135,7 @@ export function ProductDetail({
           {selected ? (
             <p className="mt-2 text-sm text-foreground/60">
               {formatPrice(selected.price)}
+              <span className="text-foreground/40"> — Free shipping</span>
             </p>
           ) : null}
         </div>
