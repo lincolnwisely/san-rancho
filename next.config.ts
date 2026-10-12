@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     // instead of the 4-hour default to avoid re-transforming on expiry.
     minimumCacheTTL: 2678400,
     // Fewer candidate widths means fewer unique transformations per image.
-    deviceSizes: [640, 1080, 1920],
+    deviceSizes: [1080],
     imageSizes: [128, 256],
     remotePatterns: [
       {

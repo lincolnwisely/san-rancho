@@ -50,8 +50,8 @@ function ProductGallery({
               <Image
                 src={img.src}
                 alt=""
-                width={128}
-                height={128}
+                width={64}
+                height={64}
                 className="h-full w-full object-cover"
               />
             </button>
