@@ -2,12 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    // Printify mockup URLs rarely change, so cache optimized images for 31 days
-    // instead of the 4-hour default to avoid re-transforming on expiry.
-    minimumCacheTTL: 2678400,
-    // Fewer candidate widths means fewer unique transformations per image.
-    deviceSizes: [640, 1080, 1920],
-    imageSizes: [128, 256],
+    // Printify mockups are already small JPGs (~40–90 KB), so serve them as-is
+    // and skip Vercel Image Optimization (Hobby plan caps transformations).
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
