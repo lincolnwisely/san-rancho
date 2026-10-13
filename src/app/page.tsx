@@ -31,7 +31,7 @@ export default async function Home() {
             .map(({ collection, products }) => (
               <section key={collection.slug}>
                 <div className="mb-6 flex items-baseline justify-between">
-                  <h2 className="text-sm tracking-wide uppercase">
+                  <h2 className="text-sm font-bold tracking-wide uppercase">
                     {collection.title}
                   </h2>
                   <Link
