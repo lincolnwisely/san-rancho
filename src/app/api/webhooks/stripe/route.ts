@@ -1,12 +1,21 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { getStripe } from "@/lib/stripe";
-import { createOrder, type PrintifyOrderLineItem } from "@/lib/printify";
+import {
+  createOrder,
+  sendOrderToProduction,
+  type PrintifyOrderLineItem,
+} from "@/lib/printify";
 
 function validPhone(phone: string | null | undefined): string | undefined {
   if (!phone) return undefined;
   const digits = phone.replace(/[^\d]/g, "");
   return digits.length >= 7 && digits.length <= 15 ? phone : undefined;
+}
+
+// Printify puts orders on hold for "+tag" emails (e.g. name+shop@gmail.com).
+function printifyEmail(email: string | null | undefined): string {
+  return (email ?? "").replace(/\+[^@]*@/, "@");
 }
 
 export async function POST(request: Request) {
@@ -38,13 +47,13 @@ export async function POST(request: Request) {
     const [firstName, ...rest] = (details?.name ?? "Customer").split(" ");
 
     if (lineItems.length > 0 && address?.line1) {
-      await createOrder({
+      const order = await createOrder({
         externalId: session.id,
         lineItems,
         address: {
           first_name: firstName || "Customer",
           last_name: rest.join(" ") || "-",
-          email: session.customer_details?.email ?? "",
+          email: printifyEmail(session.customer_details?.email),
           phone: validPhone(session.customer_details?.phone),
           country: address.country ?? "US",
           region: address.state ?? undefined,
@@ -54,6 +63,7 @@ export async function POST(request: Request) {
           zip: address.postal_code ?? "",
         },
       });
+      await sendOrderToProduction(order.id);
     }
   }
 
