@@ -91,7 +91,7 @@ export default function CartPage() {
       </ul>
 
       <div className="mt-8 flex items-center justify-between border-t border-foreground/10 pt-6">
-        <span className="text-sm tracking-wide uppercase">Subtotal</span>
+        <span className="font-mono text-sm tracking-wide uppercase">Subtotal</span>
         <span className="text-sm">{formatPrice(subtotal)}</span>
       </div>
 

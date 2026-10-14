@@ -141,6 +141,13 @@ export async function createOrder(params: {
   });
 }
 
+export async function sendOrderToProduction(orderId: string): Promise<void> {
+  const shopId = await getShopId();
+  await printifyFetch(`/shops/${shopId}/orders/${orderId}/send_to_production.json`, {
+    method: "POST",
+  });
+}
+
 // Product URLs are "<title>-<id>" (e.g. "lucky-me-6aa6e108b02ef80c0b04de45").
 // The page looks products up by the id, so renaming a product doesn't break
 // old links; they redirect to the current slug.

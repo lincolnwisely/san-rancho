@@ -24,7 +24,7 @@ export function ProductCard({ product }: { product: PrintifyProduct }) {
         ) : null}
       </div>
       <div className="mt-4 sm:flex items-baseline justify-between gap-3">
-        <h2 className="text-sm tracking-wide">{product.title}</h2>
+        <h3 className="text-xs tracking-wide">{product.title}</h3>
         {minPrice !== undefined ? (
           <span className="shrink-0 text-sm text-foreground/60 block mt-1 sm:mt-0">{formatPrice(minPrice)}</span>
         ) : null}
