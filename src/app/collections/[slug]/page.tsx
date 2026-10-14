@@ -38,7 +38,7 @@ export default async function CollectionPage({
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-6 pt-8 pb-16">
       <BackLink />
-      <h1 className="mt-8 mb-12 text-sm tracking-wide uppercase">
+      <h1 className="mt-8 mb-12 text-sm font-bold tracking-wide uppercase">
         {collection.title}
       </h1>
       {products.length === 0 ? (
