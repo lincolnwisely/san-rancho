@@ -25,5 +25,11 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'IBM Plex Mono', Helvetica, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+@layer base {
+  h1, h2, h3, button, legend {
+    font-family: var(--font-mono);
+  }
 }

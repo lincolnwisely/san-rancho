@@ -18,7 +18,7 @@ export function Header() {
         </Link>
         <Link
           href="/cart"
-          className="flex items-center gap-2 text-sm tracking-wide uppercase"
+          className="flex items-center gap-2 font-mono text-sm tracking-wide uppercase"
         >
           Cart
           {count > 0 ? (

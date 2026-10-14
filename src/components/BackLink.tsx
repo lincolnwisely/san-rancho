@@ -21,7 +21,7 @@ export function BackLink({ fallbackHref = "/" }: { fallbackHref?: string }) {
           router.back();
         }
       }}
-      className="text-xs tracking-wide text-foreground/60 uppercase hover:text-foreground"
+      className="font-mono text-xs tracking-wide text-foreground/60 uppercase hover:text-foreground"
     >
       ← Back
     </Link>
