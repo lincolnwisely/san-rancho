@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import type {
   PrintifyImage,
   PrintifyOption,
@@ -19,11 +19,35 @@ function ProductGallery({
   alt: string;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
   const mainImage = images[activeIndex] ?? images[0];
+
+  // Horizontal swipes on the main image step through photos; vertical ones
+  // are left alone so the page still scrolls.
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (!start) return;
+    const dx = e.changedTouches[0].clientX - start.x;
+    const dy = e.changedTouches[0].clientY - start.y;
+    if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+    setActiveIndex((i) =>
+      Math.min(Math.max(i + (dx < 0 ? 1 : -1), 0), images.length - 1)
+    );
+  };
 
   return (
     <div>
-      <div className="aspect-square w-full overflow-hidden bg-surface">
+      <div
+        className="aspect-square w-full overflow-hidden bg-surface"
+        onTouchStart={(e) => {
+          touchStart.current = {
+            x: e.touches[0].clientX,
+            y: e.touches[0].clientY,
+          };
+        }}
+        onTouchEnd={onTouchEnd}
+      >
         {mainImage ? (
           <Image
             src={mainImage.src}

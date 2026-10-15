@@ -3,7 +3,7 @@ import { getUnitsSold } from "@/lib/sales";
 
 // Shown in Popular when there aren't enough sales to rank, in this order.
 const POPULAR_PICKS = [
-  "6aa6e108b02ef80c0b04de45", // Lucky me
+  "6ac6a8374b300b890b0c2d5d", // My World's On Fire hoodie
   "6aa41c9fa512d344840fc322", // San Rancho Birding Society
   "6aa18bd72e2c82890e0b2bf4", // The end is near
   "6ab7d6f9db3d85977c0214c6", // What if they're right hoodie
@@ -21,19 +21,19 @@ export interface Collection {
 // Printify tags products by type automatically (e.g. "T-shirts", "Mugs").
 const byTags =
   (...tags: string[]) =>
-  async (products: PrintifyProduct[]) =>
-    products.filter((p) => tags.some((t) => p.tags.includes(t)));
+    async (products: PrintifyProduct[]) =>
+      products.filter((p) => tags.some((t) => p.tags.includes(t)));
 
 export const COLLECTIONS: Collection[] = [
-  {
-    slug: "new",
-    title: "New",
-    description: "The latest from San Rancho.",
-    select: async (products) =>
-      [...products]
-        .sort((a, b) => b.created_at.localeCompare(a.created_at))
-        .slice(0, NEW_LIMIT),
-  },
+  // {
+  //   slug: "new",
+  //   title: "New",
+  //   description: "The latest from San Rancho.",
+  //   select: async (products) =>
+  //     [...products]
+  //       .sort((a, b) => b.created_at.localeCompare(a.created_at))
+  //       .slice(0, NEW_LIMIT),
+  // },
   {
     slug: "popular",
     title: "Popular",
