@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: "San Rancho", template: "%s | San Rancho" },
-  description: "San Rancho - minimalist tees commemorating camps, cults and exclusive communities",
+  description: "San Rancho - minimalist tees commemorating cults, camps and exclusive communities",
   openGraph: {
     siteName: "San Rancho",
     type: "website",

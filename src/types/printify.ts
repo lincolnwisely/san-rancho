@@ -37,6 +37,7 @@ export interface PrintifyProduct {
   visible: boolean;
   tags: string[];
   created_at: string; // "2026-10-01 13:41:57+00:00"
+  updated_at: string;
 }
 
 export interface PrintifyProductsResponse {
