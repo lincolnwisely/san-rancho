@@ -22,6 +22,7 @@ export default function TermsPage() {
             Orders and pricing
           </h2>
           <p>
+            We currently ship only to addresses in the United States.
             Prices are in US dollars. Sales tax is added at checkout where
             required, and any shipping cost is shown before you pay. We may
             cancel and fully refund an order if a product is listed at the wrong

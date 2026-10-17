@@ -54,6 +54,7 @@ function toStorefrontProduct(p: PrintifyProduct): PrintifyProduct {
     visible: p.visible,
     tags: p.tags,
     created_at: p.created_at,
+    updated_at: p.updated_at,
     images: p.images.map(({ src, variant_ids, position, is_default }) => ({
       src,
       variant_ids,
