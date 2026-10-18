@@ -52,6 +52,19 @@ export default function PrivacyPage() {
               hosts this site and provides anonymous, cookie-free analytics on
               page visits.
             </li>
+            <li>
+              <strong className="font-medium text-foreground">Google Analytics</strong>{" "}
+              uses cookies to collect information about how visitors use this site, such
+              as pages viewed, device and approximate location. You can opt out with
+              Google&apos;s{" "}
+              <a
+                href="https://tools.google.com/dlpage/gaoptout"
+                className="text-foreground underline"
+              >
+                opt-out browser add-on
+              </a>
+              .
+            </li>
           </ul>
         </section>
 

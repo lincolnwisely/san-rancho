@@ -11,7 +11,7 @@ export default function AboutPage() {
     <main className="mx-auto max-w-3xl flex-1 px-6 py-16">
       <h1 className="mb-8 text-lg tracking-wide uppercase">About</h1>
       <div className="flex flex-col gap-4 mb-8 text-sm leading-relaxed text-foreground/70">
-        <p>San Rancho makes irreverent tees commemorating camps, cults and other exclusive communities. Any similarity to actual persons, living or dead, or events or organizations, real or fictional, is mostly coincidental.</p>
+        <p>San Rancho makes irreverent hoodies, crew-neck sweatshirts, t-shirts and accessories commemorating camps, cults and other members-only communities. Strongly inspired by various religious cults of the United States, San Rancho&apos;s products bestow a sense of blessed belonging. We call it a community-in-a-box. Any similarity to actual persons, living or dead, or events or organizations, real or fictional, is mostly coincidental.</p>
         <p>Every shirt is printed on demand after you order, so nothing is made until it has a home. Due to the small scale of San Rancho, orders ship only to the United States at this time. Thank you for understanding.</p>
       </div>
       <div className="flex flex-col gap-4 text-sm leading-relaxed text-foreground/70">
