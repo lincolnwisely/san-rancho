@@ -47,7 +47,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           src="https://www.googletagmanager.com/gtag/js?id=G-D1V44L78Q7"
           strategy="afterInteractive"
         />
-        <Script id="google-tag" strategy="afterInteractive">
+        <Script id="google-tag" strategy="beforeInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

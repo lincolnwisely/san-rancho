@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type {
   PrintifyImage,
   PrintifyOption,
@@ -10,6 +10,7 @@ import type {
 import { useCart } from "@/lib/cart-context";
 import { getVariantImages } from "@/lib/printify";
 import { formatPrice, sanitizeDescription } from "@/lib/format";
+import { trackEcommerce } from "@/lib/analytics";
 
 function ProductGallery({
   images,
@@ -108,6 +109,14 @@ export function ProductDetail({
     () => getVariantImages(product, variantId),
     [product, variantId]
   );
+
+  // Once per product page, priced at the default variant.
+  useEffect(() => {
+    trackEcommerce("view_item", [
+      { productId: product.id, title: product.title, price: selected?.price ?? 0 },
+    ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.id]);
 
   // Only show option values that exist on an enabled variant, and hide
   // options with a single choice (e.g. "One size").
@@ -229,6 +238,14 @@ export function ProductDetail({
               price: selected.price,
               image: images[0]?.src,
             });
+            trackEcommerce("add_to_cart", [
+              {
+                productId: product.id,
+                title: product.title,
+                variantTitle: selected.title,
+                price: selected.price,
+              },
+            ]);
             setAdded(true);
             setTimeout(() => setAdded(false), 1500);
           }}

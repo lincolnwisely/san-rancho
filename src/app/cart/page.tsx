@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
 import { formatPrice } from "@/lib/format";
+import { trackEcommerce } from "@/lib/analytics";
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, subtotal } = useCart();
@@ -13,6 +14,7 @@ export default function CartPage() {
   async function checkout() {
     setLoading(true);
     setError(null);
+    trackEcommerce("begin_checkout", items);
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
