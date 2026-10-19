@@ -9,6 +9,7 @@ import type {
 } from "@/types/printify";
 import { useCart } from "@/lib/cart-context";
 import { getVariantImages } from "@/lib/printify";
+import { SAMPLE_PHOTOS } from "@/lib/sample-photos";
 import { formatPrice, sanitizeDescription } from "@/lib/format";
 import { trackEcommerce } from "@/lib/analytics";
 
@@ -106,7 +107,15 @@ export function ProductDetail({
   );
 
   const images = useMemo(
-    () => getVariantImages(product, variantId),
+    () => [
+      ...getVariantImages(product, variantId),
+      ...(SAMPLE_PHOTOS[product.id] ?? []).map((src) => ({
+        src,
+        variant_ids: [],
+        position: "sample",
+        is_default: false,
+      })),
+    ],
     [product, variantId]
   );
 
