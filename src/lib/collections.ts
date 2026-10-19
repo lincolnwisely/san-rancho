@@ -57,7 +57,7 @@ export const COLLECTIONS: Collection[] = [
     slug: "tees",
     title: "Tees",
     description: "San Rancho t-shirts.",
-    select: byTags("T-shirts"),
+    select: byTags("T-shirts", "Long Sleeves"),
   },
   {
     slug: "sweatshirts",
@@ -69,7 +69,7 @@ export const COLLECTIONS: Collection[] = [
     slug: "accessories",
     title: "Accessories",
     description: "San Rancho hats, mugs, and more.",
-    select: byTags("Accessories", "Mugs"),
+    select: byTags("Accessories", "Mugs", "Stickers"),
   },
 ];
 
