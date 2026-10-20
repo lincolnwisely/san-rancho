@@ -101,6 +101,14 @@ export function ProductDetail({
   );
   const [added, setAdded] = useState(false);
 
+  // Shopping feed links pass ?variant=<id> so the page shows that variant's
+  // color, size and price.
+  useEffect(() => {
+    const id = Number(new URLSearchParams(window.location.search).get("variant"));
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time read of the URL after the static page mounts
+    if (variants.some((v) => v.id === id)) setVariantId(id);
+  }, [variants]);
+
   const selected = useMemo(
     () => variants.find((v) => v.id === variantId),
     [variants, variantId]
