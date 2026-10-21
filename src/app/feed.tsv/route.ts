@@ -2,6 +2,7 @@ import { getProducts, getProductSlug, getVariantImages } from "@/lib/printify";
 import { SAMPLE_PHOTOS } from "@/lib/sample-photos";
 import { toPlainText } from "@/lib/format";
 import { SITE_URL } from "@/lib/site";
+import { getProductType, type ProductType } from "@/lib/product-types";
 
 // Google Merchant Center product feed, one row per enabled variant.
 // Merchant Center fetches this URL on a schedule, so it stays in sync with
@@ -32,22 +33,8 @@ const COLUMNS = [
 // Printify's automatic type tags for clothing and hats.
 const APPAREL_TAGS = ["Men's Clothing", "Women's Clothing", "Hats"];
 
-// Product type by Printify tag: the name added to titles that don't already
-// say what the product is (any `keywords` match), and the Google product
-// category id (https://www.google.com/basepages/producttype/taxonomy-with-ids.en-US.txt).
-const PRODUCT_TYPES = [
-  { tag: "Long Sleeves", name: "Long Sleeve Tee", keywords: ["long sleeve"], category: "212" },
-  { tag: "T-shirts", name: "Tee", keywords: ["tee", "shirt"], category: "212" },
-  { tag: "Sweatshirts", name: "Sweatshirt", keywords: ["sweatshirt", "crewneck"], category: "212" },
-  { tag: "Hoodies", name: "Hoodie", keywords: ["hoodie"], category: "212" },
-  { tag: "Hats", name: "Hat", keywords: ["hat", "cap"], category: "173" },
-  { tag: "Mugs", name: "Mug", keywords: ["mug"], category: "2169" },
-  { tag: "Stickers", name: "Sticker", keywords: ["sticker"], category: "4054" },
-  { tag: "Magnets", name: "Magnet", keywords: ["magnet"], category: "5876" },
-];
-
 // "Brand + design + product type", e.g. "Lucky me" -> "San Rancho Lucky me Tee".
-function feedTitle(title: string, type?: (typeof PRODUCT_TYPES)[number]) {
+function feedTitle(title: string, type?: ProductType) {
   const lower = title.toLowerCase();
   let result = lower.includes("san rancho") ? title : `San Rancho ${title}`;
   if (type && !type.keywords.some((k) => lower.includes(k))) {
@@ -72,7 +59,7 @@ export async function GET() {
     const description = toPlainText(product.description, 5000) || product.title;
     const isApparel = product.tags.some((t) => APPAREL_TAGS.includes(t));
     const samples = (SAMPLE_PHOTOS[product.id] ?? []).map((src) => SITE_URL + src);
-    const type = PRODUCT_TYPES.find((t) => product.tags.includes(t.tag));
+    const type = getProductType(product);
     const title = feedTitle(product.title, type);
 
     // Option value id -> title, per option type ("color", "size", ...).
