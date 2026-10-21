@@ -56,6 +56,10 @@ function feedTitle(title: string, type?: (typeof PRODUCT_TYPES)[number]) {
   return result;
 }
 
+// Printify's image host disallows crawlers in robots.txt; serve through our
+// domain (see the rewrite in next.config.ts).
+const PRINTIFY_IMAGES = "https://images-api.printify.com";
+
 // Tabs and newlines would break the row.
 const clean = (value: string) => value.replace(/\s+/g, " ").trim();
 
@@ -81,7 +85,9 @@ export async function GET() {
 
     for (const variant of product.variants) {
       const images = [
-        ...getVariantImages(product, variant.id).map((img) => img.src),
+        ...getVariantImages(product, variant.id).map((img) =>
+          img.src.replace(PRINTIFY_IMAGES, `${SITE_URL}/printify-images`)
+        ),
         ...samples,
       ];
       const color = valueTitle(variant.options, "color");
