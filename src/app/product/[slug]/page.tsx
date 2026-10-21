@@ -10,6 +10,7 @@ import {
 } from "@/lib/printify";
 import { ProductDetail } from "@/components/ProductDetail";
 import { BackLink } from "@/components/BackLink";
+import { RelatedProducts } from "@/components/RelatedProducts";
 import { SITE_URL } from "@/lib/site";
 import { toPlainText } from "@/lib/format";
 
@@ -105,6 +106,7 @@ export default async function ProductPage({
       />
       <BackLink />
       <ProductDetail product={product} variants={variants} />
+      <RelatedProducts product={product} />
     </main>
   );
 }
