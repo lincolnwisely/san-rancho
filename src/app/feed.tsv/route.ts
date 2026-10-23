@@ -1,4 +1,9 @@
-import { getProducts, getProductSlug, getVariantImages } from "@/lib/printify";
+import {
+  crawlableImageUrl,
+  getProducts,
+  getProductSlug,
+  getVariantImages,
+} from "@/lib/printify";
 import { SAMPLE_PHOTOS } from "@/lib/sample-photos";
 import { toPlainText } from "@/lib/format";
 import { SITE_URL } from "@/lib/site";
@@ -43,10 +48,6 @@ function feedTitle(title: string, type?: ProductType) {
   return result;
 }
 
-// Printify's image host disallows crawlers in robots.txt; serve through our
-// domain (see the rewrite in next.config.ts).
-const PRINTIFY_IMAGES = "https://images-api.printify.com";
-
 // Tabs and newlines would break the row.
 const clean = (value: string) => value.replace(/\s+/g, " ").trim();
 
@@ -73,7 +74,7 @@ export async function GET() {
     for (const variant of product.variants) {
       const images = [
         ...getVariantImages(product, variant.id).map((img) =>
-          img.src.replace(PRINTIFY_IMAGES, `${SITE_URL}/printify-images`)
+          crawlableImageUrl(img.src)
         ),
         ...samples,
       ];

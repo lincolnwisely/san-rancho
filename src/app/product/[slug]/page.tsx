@@ -7,6 +7,7 @@ import {
   getProducts,
   getProductSlug,
   getProductIdFromSlug,
+  crawlableImageUrl,
 } from "@/lib/printify";
 import { ProductDetail } from "@/components/ProductDetail";
 import { BackLink } from "@/components/BackLink";
@@ -47,7 +48,7 @@ export async function generateMetadata({
       title: product.title,
       description,
       url: path,
-      images: image ? [image] : undefined,
+      images: image ? [crawlableImageUrl(image)] : undefined,
     },
     twitter: { card: "summary_large_image" },
   };
@@ -79,8 +80,9 @@ export default async function ProductPage({
     image: [
       ...new Set([getDefaultImage(product), ...product.images.map((img) => img.src)]),
     ]
-      .filter(Boolean)
-      .slice(0, 5),
+      .filter((src) => src !== undefined)
+      .slice(0, 5)
+      .map(crawlableImageUrl),
     url: `${SITE_URL}/product/${canonicalSlug}`,
     sku: product.id,
     brand: { "@type": "Brand", name: "San Rancho" },

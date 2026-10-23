@@ -1,5 +1,6 @@
 import { unstable_cache } from "next/cache";
 import type { PrintifyProduct, PrintifyProductsResponse } from "@/types/printify";
+import { SITE_URL } from "@/lib/site";
 
 const API_BASE = "https://api.printify.com/v1";
 
@@ -172,6 +173,16 @@ export function getProductIdFromSlug(slug: string) {
 export function getDefaultImage(product: PrintifyProduct): string | undefined {
   return (
     product.images.find((img) => img.is_default)?.src ?? product.images[0]?.src
+  );
+}
+
+// images-api.printify.com's robots.txt blocks Google, so image URLs that
+// crawlers see (feed, structured data, Open Graph) go through our domain
+// instead (see the rewrite in next.config.ts).
+export function crawlableImageUrl(src: string): string {
+  return src.replace(
+    "https://images-api.printify.com",
+    `${SITE_URL}/printify-images`
   );
 }
 
