@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getProducts } from "@/lib/printify";
 import { COLLECTIONS } from "@/lib/collections";
 import { ProductCard } from "@/components/ProductCard";
+
+export const metadata: Metadata = {
+  title: { absolute: "Cult T-Shirts, Hoodies & Merch — San Rancho" },
+  description: "Shop irreverent cult-themed tees, hoodies & accessories. Heaven's Gate, People's Temple, deconversion humor. Free US shipping.",
+  alternates: { canonical: "/" },
+};
 // Rebuilt in the background at most every 5 minutes, matching the Printify cache.
 export const revalidate = 300;
 
@@ -18,7 +25,7 @@ export default async function Home() {
   );
 
   return (
-    <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
+    <main className="mx-auto w-full max-w-5xl flex-1 py-20">
       <h1 className="mb-12 text-2xl tracking-tight sm:text-3xl text-center">
         Merch for cults, camps &amp; exclusive communities
       </h1>
