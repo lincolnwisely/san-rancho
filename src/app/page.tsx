@@ -25,7 +25,7 @@ export default async function Home() {
   );
 
   return (
-    <main className="mx-auto w-full max-w-5xl flex-1 py-20">
+    <main className="mx-auto w-full max-w-5xl flex-1 py-20 px-6 ">
       <h1 className="mb-12 text-2xl tracking-tight sm:text-3xl text-center">
         Merch for cults, camps &amp; exclusive communities
       </h1>
