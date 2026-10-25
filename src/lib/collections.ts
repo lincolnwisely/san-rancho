@@ -37,7 +37,7 @@ export const COLLECTIONS: Collection[] = [
   {
     slug: "popular",
     title: "Popular",
-    description: "What people are buying from San Rancho.",
+    description: "Best-selling cult tees, hoodies & accessories from San Rancho.",
     // Best sellers first, then hand-picks to fill in until sales catch up.
     select: async (products) => {
       const sold = await getUnitsSold().catch((err) => {
@@ -56,19 +56,19 @@ export const COLLECTIONS: Collection[] = [
   {
     slug: "tees",
     title: "Tees",
-    description: "San Rancho t-shirts.",
+    description: "Cult-themed t-shirts and long sleeves. Deconversion humor, classic cults, dark satire. Printed on demand, free US shipping.",
     select: byTags("T-shirts", "Long Sleeves"),
   },
   {
     slug: "sweatshirts",
     title: "Sweatshirts",
-    description: "San Rancho sweatshirts and hoodies.",
+    description: "Cult hoodies and crewneck sweatshirts. Minimalist design, printed on demand, free US shipping.",
     select: byTags("Sweatshirts", "Hoodies"),
   },
   {
     slug: "accessories",
     title: "Accessories",
-    description: "San Rancho hats, mugs, and more.",
+    description: "Cult-themed mugs, stickers, magnets & hats from San Rancho.",
     select: byTags("Accessories", "Mugs", "Stickers"),
   },
 ];
