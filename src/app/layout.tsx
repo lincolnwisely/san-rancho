@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import Script from "next/script";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
+import { Banner } from "@/components/Banner"
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SITE_URL } from "@/lib/site";
@@ -37,6 +38,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <CartProvider>
+          <Banner><p>Free Shipping on all US Orders</p></Banner>
+
           <Header />
           {children}
           <Footer />
