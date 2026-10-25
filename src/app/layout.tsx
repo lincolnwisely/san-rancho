@@ -30,6 +30,16 @@ export const metadata: Metadata = {
   },
 };
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "San Rancho",
+  url: SITE_URL,
+  logo: `${SITE_URL}/san-rancho-logo.svg`,
+  description: "Irreverent cult-themed tees, hoodies & accessories inspired by American religious movements. Printed on demand, free US shipping.",
+  email: "sup@sanrancho.com",
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -37,6 +47,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c"),
+          }}
+        />
         <CartProvider>
           <Banner><p>Free Shipping on all US Orders</p></Banner>
 
