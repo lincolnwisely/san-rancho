@@ -2,7 +2,6 @@ import Link from "next/link";
 import { getProducts } from "@/lib/printify";
 import { COLLECTIONS } from "@/lib/collections";
 import { ProductCard } from "@/components/ProductCard";
-
 // Rebuilt in the background at most every 5 minutes, matching the Printify cache.
 export const revalidate = 300;
 
@@ -20,6 +19,9 @@ export default async function Home() {
 
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
+      <h1 className="mb-12 text-2xl tracking-tight sm:text-3xl text-center">
+        Merch for cults, camps &amp; exclusive communities
+      </h1>
       {products.length === 0 ? (
         <p className="text-sm text-zinc-500">
           No products published yet. Check back soon.

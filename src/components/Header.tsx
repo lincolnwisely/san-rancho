@@ -9,7 +9,7 @@ export function Header() {
   const { count } = useCart();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-foreground/10 bg-background/90 backdrop-blur">
+    <header className="sticky top-0 z-40 bg-background/90 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center">
           <Image src={logo} alt="San Rancho" className="h-18 w-auto" priority />
