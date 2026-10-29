@@ -11,10 +11,12 @@ export default function AboutPage() {
     <main className="mx-auto max-w-3xl flex-1 px-6 py-16">
       <h1 className="mb-8 text-lg tracking-wide uppercase">About San Rancho</h1>
       <div className="flex flex-col gap-4 mb-8 text-sm leading-relaxed text-foreground/70">
-        <p>San Rancho was born of a gaping hole in the cult merchandise industry. So we decided to create our own wardrobe of cult and exclusive community-theme, cozy tees and sweatshirts that we want to wear.</p>
-        <p>Inspired by various religious cults of the United States, San Rancho makes irreverent hoodies, crewneck sweatshirts, t-shirts and accessories commemorating camps, cults and other members-only communities.</p>
+        <p>San Rancho was born of a gaping hole in the cult merchandise industry, specifically a lack of minimalist, snarky/stupid, single-color prints on comfortable textiles. We decided to create our own exclusive community-themed wardrobe and share it with other kindred spirits.</p>
+        <p>Most products are inspired by various religious cults of the United States, but we also rep fake cults/communities, share deep lyrics and declare our freedom from organized religion on a smattering of crewneck sweatshirts, t-shirts and accessories.</p>
         <p>Any similarity to actual persons, living or dead, or events or organizations, real or fictional, is coincidental.</p>
         <p>Every shirt is printed on demand after you order, so nothing is made until it has a home. Due to the small scale of San Rancho, we can only fulfill orders to the United States at this time. Thank you for understanding.</p>
+        <p>San Rancho is not a cult.</p>
+
       </div>
       <div className="flex flex-col gap-4 text-sm leading-relaxed text-foreground/70">
         <h2 className="text-lg">Quality</h2>
