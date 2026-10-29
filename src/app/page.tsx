@@ -4,7 +4,7 @@ import Link from "next/link";
 import { getProducts } from "@/lib/printify";
 import { COLLECTIONS } from "@/lib/collections";
 import { ProductCard } from "@/components/ProductCard";
-import heroImg from "../../public/hero/sweatshirts.png";
+import heroImg from "../../public/hero/sweatshirts.jpg";
 
 export const metadata: Metadata = {
   title: { absolute: "Cult T-Shirts, Hoodies & Merch — San Rancho" },
