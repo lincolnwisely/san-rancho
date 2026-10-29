@@ -84,10 +84,19 @@ function toStorefrontProduct(p: PrintifyProduct): PrintifyProduct {
 export const getProducts = unstable_cache(
   async (): Promise<PrintifyProduct[]> => {
     const shopId = await getShopId();
-    const data = await printifyFetch<PrintifyProductsResponse>(
-      `/shops/${shopId}/products.json`
-    );
-    return data.data.filter((p) => p.visible).map(toStorefrontProduct);
+    const allProducts: PrintifyProduct[] = [];
+    let page = 1;
+
+    while (true) {
+      const data = await printifyFetch<PrintifyProductsResponse>(
+        `/shops/${shopId}/products.json?limit=50&page=${page}`
+      );
+      allProducts.push(...data.data);
+      if (page >= data.last_page) break;
+      page++;
+    }
+
+    return allProducts.filter((p) => p.visible).map(toStorefrontProduct);
   },
   ["printify-products"],
   { revalidate: STOREFRONT_REVALIDATE_SECONDS }
