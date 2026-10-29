@@ -3,13 +3,13 @@ import { getUnitsSold } from "@/lib/sales";
 
 // Shown in Popular when there aren't enough sales to rank, in this order.
 const POPULAR_PICKS = [
-  "6ac6a8374b300b890b0c2d5d", // My World's On Fire hoodie
-  "6aa41c9fa512d344840fc322", // San Rancho Birding Society
+  "6ad237120015247b110cb7ac", // Peoples Temple 1972 tour sweatshirt
   "6aa18bd72e2c82890e0b2bf4", // The end is near
-  "6ab7d6f9db3d85977c0214c6", // What if they're right hoodie
+  "6aba7d02403852ca3a04352f", // What if they're right sweatshirt
+  "6ad23b9f51522f9ea60f4a48", // Human Individual Metamorphosis
 ];
 
-const NEW_LIMIT = 8;
+// const NEW_LIMIT = 8;
 
 export interface Collection {
   slug: string;

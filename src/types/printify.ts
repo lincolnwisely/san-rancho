@@ -42,4 +42,6 @@ export interface PrintifyProduct {
 
 export interface PrintifyProductsResponse {
   data: PrintifyProduct[];
+  current_page: number;
+  last_page: number;
 }
