@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 // Rebuilt in the background at most every 5 minutes, matching the Printify cache.
-export const revalidate = 300;
+export const revalidate = 3600;
 
 const ROW_SIZE = 4;
 
