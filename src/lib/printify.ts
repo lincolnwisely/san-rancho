@@ -12,8 +12,8 @@ function requireEnv(name: string): string {
   return value;
 }
 
-// Storefront reads are cached for 5 minutes; checkout and order creation always hit Printify live.
-const STOREFRONT_REVALIDATE_SECONDS = 300;
+// Storefront reads are cached for 1 hour; checkout and order creation always hit Printify live.
+const STOREFRONT_REVALIDATE_SECONDS = 3600;
 
 async function printifyFetch<T>(
   path: string,

@@ -17,7 +17,7 @@ import { toPlainText } from "@/lib/format";
 
 // Rebuilt in the background at most every 5 minutes, matching the Printify cache.
 // Products published after a deploy are rendered on first visit, then cached.
-export const revalidate = 300;
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const products = await getProducts();

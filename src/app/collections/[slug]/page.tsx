@@ -6,7 +6,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { BackLink } from "@/components/BackLink";
 
 // Rebuilt in the background at most every 5 minutes, matching the Printify cache.
-export const revalidate = 300;
+export const revalidate = 3600;
 
 export function generateStaticParams() {
   return COLLECTIONS.map((c) => ({ slug: c.slug }));
