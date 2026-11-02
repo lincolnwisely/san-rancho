@@ -10,6 +10,14 @@ export function Footer() {
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>
         </nav>
+        <a
+          href="https://instagram.com/shopsanrancho"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-foreground transition-colors"
+        >
+          @shopsanrancho
+        </a>
       </div>
     </footer>
   );
