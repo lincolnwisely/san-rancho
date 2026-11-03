@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   description: "Shop irreverent cult-themed tees, hoodies & accessories. Heaven's Gate, People's Temple, deconversion humor. Free US shipping.",
   alternates: { canonical: "/" },
 };
-// Rebuilt in the background at most every 5 minutes, matching the Printify cache.
-export const revalidate = 3600;
+// Rebuilt when the Printify webhook invalidates the product cache; daily fallback.
+export const revalidate = 86400;
 
 const ROW_SIZE = 4;
 

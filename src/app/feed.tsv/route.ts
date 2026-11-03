@@ -12,7 +12,7 @@ import { getProductType, type ProductType } from "@/lib/product-types";
 // Google Merchant Center product feed, one row per enabled variant.
 // Merchant Center fetches this URL on a schedule, so it stays in sync with
 // Printify without a spreadsheet.
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 const COLUMNS = [
   "id",

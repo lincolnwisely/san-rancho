@@ -12,8 +12,12 @@ function requireEnv(name: string): string {
   return value;
 }
 
-// Storefront reads are cached for 1 hour; checkout and order creation always hit Printify live.
-const STOREFRONT_REVALIDATE_SECONDS = 3600;
+// Storefront reads are cached and tagged; the Printify webhook
+// (api/webhooks/printify) invalidates the tag when a product is published or
+// deleted. The daily revalidate is only a fallback in case a webhook is missed.
+// Checkout and order creation always hit Printify live.
+export const PRODUCTS_CACHE_TAG = "printify-products";
+const STOREFRONT_REVALIDATE_SECONDS = 86400;
 
 async function printifyFetch<T>(
   path: string,
@@ -29,7 +33,10 @@ async function printifyFetch<T>(
       ...init?.headers,
     },
     ...(cached
-      ? { cache: "force-cache", next: { revalidate: STOREFRONT_REVALIDATE_SECONDS } }
+      ? {
+          cache: "force-cache",
+          next: { revalidate: STOREFRONT_REVALIDATE_SECONDS, tags: [PRODUCTS_CACHE_TAG] },
+        }
       : { cache: "no-store" }),
   });
 
@@ -99,7 +106,7 @@ export const getProducts = unstable_cache(
     return allProducts.filter((p) => p.visible).map(toStorefrontProduct);
   },
   ["printify-products"],
-  { revalidate: STOREFRONT_REVALIDATE_SECONDS }
+  { revalidate: STOREFRONT_REVALIDATE_SECONDS, tags: [PRODUCTS_CACHE_TAG] }
 );
 
 export async function getProduct(
@@ -111,6 +118,19 @@ export async function getProduct(
     `/shops/${shopId}/products/${productId}.json`,
     undefined,
     { cached: !live }
+  );
+}
+
+// Custom API shops must confirm a publish, or Printify leaves the product
+// locked in "Publishing".
+export async function markPublishingSucceeded(
+  productId: string,
+  external: { id: string; handle: string }
+): Promise<void> {
+  const shopId = await getShopId();
+  await printifyFetch(
+    `/shops/${shopId}/products/${productId}/publishing_succeeded.json`,
+    { method: "POST", body: JSON.stringify({ external }) }
   );
 }
 

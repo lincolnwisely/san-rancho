@@ -15,9 +15,9 @@ import { RelatedProducts } from "@/components/RelatedProducts";
 import { SITE_URL } from "@/lib/site";
 import { toPlainText } from "@/lib/format";
 
-// Rebuilt in the background at most every 5 minutes, matching the Printify cache.
+// Rebuilt when the Printify webhook invalidates the product cache; daily fallback.
 // Products published after a deploy are rendered on first visit, then cached.
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export async function generateStaticParams() {
   const products = await getProducts();
