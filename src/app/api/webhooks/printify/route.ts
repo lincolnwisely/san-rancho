@@ -28,11 +28,23 @@ export async function POST(request: Request) {
   const secret = process.env.PRINTIFY_WEBHOOK_SECRET;
   const body = await request.text();
 
-  if (!secret || !validSignature(body, request.headers.get("x-pfy-signature"), secret)) {
-    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+  const signature = request.headers.get("x-pfy-signature");
+
+  // Unsigned or invalid requests are ignored but still get a 200: Printify
+  // pings the URL when a webhook is registered and rejects it on a non-2xx.
+  if (!secret || !validSignature(body, signature, secret)) {
+    console.warn(
+      `Printify webhook: ignored request (signature ${signature ? "invalid" : "missing"}, ${body.length}-byte body)`
+    );
+    return NextResponse.json({ received: false });
   }
 
-  const event = JSON.parse(body) as PrintifyWebhookEvent;
+  let event: PrintifyWebhookEvent;
+  try {
+    event = JSON.parse(body);
+  } catch {
+    return NextResponse.json({ received: false });
+  }
 
   if (event.type === "product:publish:started" || event.type === "product:deleted") {
     revalidateTag(PRODUCTS_CACHE_TAG, "max");
