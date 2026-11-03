@@ -6,7 +6,11 @@ const WINDOW_DAYS = 90;
 
 // Units sold per Printify product id over the last WINDOW_DAYS, tallied from
 // paid Stripe Checkout sessions (see metadata.line_items in api/checkout).
-// Cached for an hour so the homepage doesn't page through Stripe per request.
+// Cached so the homepage doesn't page through Stripe per request. The Stripe
+// webhook invalidates the tag after each sale; the daily revalidate is a
+// fallback (and keeps the 90-day window moving).
+export const UNITS_SOLD_CACHE_TAG = "units-sold";
+
 export const getUnitsSold = unstable_cache(
   async (): Promise<Record<string, number>> => {
     const since = Math.floor(Date.now() / 1000) - WINDOW_DAYS * 24 * 60 * 60;
@@ -29,5 +33,5 @@ export const getUnitsSold = unstable_cache(
     return units;
   },
   ["units-sold"],
-  { revalidate: 3600 }
+  { revalidate: 86400, tags: [UNITS_SOLD_CACHE_TAG] }
 );
