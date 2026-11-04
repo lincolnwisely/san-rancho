@@ -11,21 +11,22 @@ export default function AboutPage() {
     <main className="mx-auto max-w-3xl flex-1 px-6 py-16">
       <h1 className="mb-8 text-lg tracking-wide uppercase">About San Rancho</h1>
       <div className="flex flex-col gap-4 mb-8 text-sm leading-relaxed text-foreground/70">
-        <h2 className="text-lg">San Rancho creates minimalist, irreverent, single-color prints on comfortable textiles.</h2>
+        <p>San Rancho makes minimalist, irreverent, single-color prints on comfortable textiles.</p>
+        <h2 className="text-lg ">Inspiration/disclaimers</h2>
         <p>Most products are inspired by religious cults of the United States, but we also rep fake cults/camps/communities on crewneck sweatshirts, t-shirts and accessories.</p>
-        <p>Any similarity to actual persons, living or dead, or events or organizations, real or fictional, is coincidental.</p>
-        <p>Every shirt is printed on demand after you order, so nothing is made until it has a home. Due to the small scale of San Rancho, we can only fulfill orders to the United States at this time. Thank you for understanding.</p>
-        <p>San Rancho is not a cult.</p>
-
+        <p>Any similarity to actual persons, living or dead, or events or organizations, real or fictional, is probably coincidental. San Rancho is not a cult.</p>
       </div>
       <div className="flex flex-col gap-4 text-sm leading-relaxed text-foreground/70">
-        <h2 className="text-lg">Quality</h2>
-        <p>Production is outsourced through Printify. Most, but not all, products have been sampled because we primarily made this site so we can wear this shit. Because each item is designed using vector art and typically in single color, the quality of DTG prints is quite comparable to traditional screen-print.</p>
-
+        <h2 className="text-lg ">Production</h2>
+        <p>Every shirt is printed on demand after you order, so nothing is made until it has a home.</p>
+        <p>Production is outsourced through Printify. In our experience, orders typically take 5 business days plus a weekend to arrive. Due to the small scale of San Rancho, we can only fulfill orders to the United States at this time. Thank you for understanding.</p>
+        <h2 className="text-lg ">Quality</h2>
+        <p>Because each item is designed using vector art and typically in single color, the quality of DTG prints is quite comparable to traditional screen-print. We choose Comfort Colors and Gildan brands for the quality and consistency.</p>
         <p>
-          If you have any issues with quality, please let us know at sup@sanrancho.com! We will make it right.
+          If you have any issues with quality, please let us know at <a className="underline" href="mailto:sup@sanrancho.com">sup@sanrancho.com</a>! We will make it right.
         </p>
       </div>
+
     </main>
   );
 }
