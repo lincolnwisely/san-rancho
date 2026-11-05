@@ -38,7 +38,7 @@ export default async function Home() {
         />
         <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white text-center px-6">
           {/* <p className="text-xs tracking-widest uppercase font-mono mb-4 font-bold">New arrivals</p> */}
-          <h2 className="text-3xl sm:text-4xl tracking-tight mb-6 font-bold">Made for members only.</h2>
+          <h2 className="text-3xl sm:text-4xl tracking-tight mb-6 font-bold">Minimalist cult merch</h2>
           <span className="bg-white text-black border border-white px-6 py-2 text-xs tracking-widest uppercase font-mono [@media(hover:hover)]:group-hover:bg-transparent [@media(hover:hover)]:group-hover:text-white transition-colors">
             Shop Sweatshirts
           </span>
