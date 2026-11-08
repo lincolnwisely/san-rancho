@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import type Stripe from "stripe";
+import { UNITS_SOLD_CACHE_TAG } from "@/lib/sales";
 import { getStripe } from "@/lib/stripe";
 import {
   createOrder,
@@ -37,6 +39,7 @@ export async function POST(request: Request) {
   }
 
   if (event.type === "checkout.session.completed" && event.livemode) {
+    revalidateTag(UNITS_SOLD_CACHE_TAG, "max");
     const session = event.data.object as Stripe.Checkout.Session;
     const lineItems: PrintifyOrderLineItem[] = JSON.parse(
       session.metadata?.line_items ?? "[]"
