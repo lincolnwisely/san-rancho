@@ -1,4 +1,14 @@
+import Image from "next/image";
 import Link from "next/link";
+
+// Only list methods enabled in Stripe (Settings → Payment methods).
+const PAYMENT_METHODS = [
+  { name: "Visa", src: "/payment-icons/Visa.jpg" },
+  { name: "Mastercard", src: "/payment-icons/Mastercard.jpg" },
+  { name: "American Express", src: "/payment-icons/Amex.jpg" },
+  { name: "Apple Pay", src: "/payment-icons/ApplePay.jpg" },
+  { name: "Google Pay", src: "/payment-icons/GooglePay.jpg" },
+];
 
 export function Footer() {
   return (
@@ -19,6 +29,23 @@ export function Footer() {
           @shopsanrancho
         </a>
       </div>
+      <ul
+        aria-label="Payment methods"
+        className="mx-auto flex max-w-5xl flex-wrap gap-2 px-6 pb-8"
+      >
+        {PAYMENT_METHODS.map((m) => (
+          <li key={m.name}>
+            {/* Icons are 356×240, shown at 2x. */}
+            <Image
+              src={m.src}
+              alt={m.name}
+              width={36}
+              height={24}
+              className="h-6 w-9 rounded-[3px] border border-foreground/15"
+            />
+          </li>
+        ))}
+      </ul>
     </footer>
   );
 }

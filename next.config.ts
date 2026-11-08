@@ -21,6 +21,26 @@ const nextConfig: NextConfig = {
         destination: "/?utm_source=instagram&utm_medium=social",
         permanent: false,
       },
+      {
+        source: "/gh",
+        destination: "/?utm_source=github&utm_medium=social",
+        permanent: false,
+      },
+      {
+        source: "/px",
+        destination: "/?utm_source=plex&utm_medium=social",
+        permanent: false,
+      },
+      {
+        source: "/tk",
+        destination: "/?utm_source=tiktok&utm_medium=social",
+        permanent: false,
+      },
+      {
+        source: "/r",
+        destination: "/?utm_source=reddit&utm_medium=social",
+        permanent: false,
+      },
     ];
   },
   // images-api.printify.com's robots.txt blocks Google, so the Merchant Center
