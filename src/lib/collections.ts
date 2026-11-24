@@ -14,6 +14,8 @@ const POPULAR_PICKS = [
 export interface Collection {
   slug: string;
   title: string;
+  // Keyword-bearing name for the collection page's <title> and <h1>.
+  heading: string;
   description: string;
   select: (products: PrintifyProduct[]) => Promise<PrintifyProduct[]>;
 }
@@ -37,6 +39,7 @@ export const COLLECTIONS: Collection[] = [
   {
     slug: "popular",
     title: "Popular",
+    heading: "Best-Selling Cult Merch",
     description: "Best-selling cult tees, hoodies & accessories from San Rancho.",
     // Best sellers first, then hand-picks to fill in until sales catch up.
     select: async (products) => {
@@ -56,18 +59,21 @@ export const COLLECTIONS: Collection[] = [
   {
     slug: "tees",
     title: "Tees",
+    heading: "Cult T-Shirts & Long Sleeves",
     description: "Cult-themed t-shirts and long sleeves. Deconversion humor, classic cults, dark satire. Printed on demand, free US shipping.",
     select: byTags("T-shirts", "Long Sleeves"),
   },
   {
     slug: "sweatshirts",
     title: "Sweatshirts",
+    heading: "Cult Hoodies & Sweatshirts",
     description: "Cult hoodies and crewneck sweatshirts. Minimalist design, printed on demand, free US shipping.",
     select: byTags("Sweatshirts", "Hoodies"),
   },
   {
     slug: "accessories",
     title: "Accessories",
+    heading: "Cult Mugs, Stickers & Hats",
     description: "Cult-themed mugs, stickers, magnets & hats from San Rancho.",
     select: byTags("Accessories", "Mugs", "Stickers"),
   },

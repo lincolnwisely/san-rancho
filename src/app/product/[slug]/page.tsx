@@ -13,6 +13,7 @@ import { ProductDetail } from "@/components/ProductDetail";
 import { BackLink } from "@/components/BackLink";
 import { RelatedProducts } from "@/components/RelatedProducts";
 import { SITE_URL } from "@/lib/site";
+import { COLLECTIONS } from "@/lib/collections";
 import { toPlainText } from "@/lib/format";
 
 // Rebuilt when the Printify webhook invalidates the product cache; daily fallback.
@@ -36,8 +37,11 @@ export async function generateMetadata({
 
   const path = `/product/${getProductSlug(product)}`;
 
+  // Use only our own blurb, not Printify's "Product Overview" boilerplate after it.
   const description =
-    toPlainText(product.description) || `${product.title} — San Rancho`;
+    toPlainText(product.description.split("Product Overview")[0]) ||
+    toPlainText(product.description) ||
+    `${product.title} — San Rancho`;
   const image = getDefaultImage(product);
 
   return {
@@ -94,8 +98,34 @@ export default async function ProductPage({
           highPrice: Math.max(...prices).toFixed(2),
           offerCount: variants.length,
           availability: "https://schema.org/InStock",
+          // Shipping is folded into prices: free to the US, the only place we ship.
+          shippingDetails: {
+            "@type": "OfferShippingDetails",
+            shippingRate: { "@type": "MonetaryAmount", value: 0, currency: "USD" },
+            shippingDestination: { "@type": "DefinedRegion", addressCountry: "US" },
+          },
         }
       : undefined,
+  };
+
+  // Home › first matching collection (skipping Popular, which is sales-based) › product.
+  const collection = (
+    await Promise.all(
+      COLLECTIONS.filter((c) => c.slug !== "popular").map(async (c) =>
+        (await c.select([product])).length ? c : null
+      )
+    )
+  ).find((c) => c !== null);
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { name: "Home", item: SITE_URL },
+      ...(collection
+        ? [{ name: collection.heading, item: `${SITE_URL}/collections/${collection.slug}` }]
+        : []),
+      { name: product.title, item: `${SITE_URL}/product/${canonicalSlug}` },
+    ].map((crumb, i) => ({ "@type": "ListItem", position: i + 1, ...crumb })),
   };
 
   return (
@@ -104,6 +134,12 @@ export default async function ProductPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbLd).replace(/</g, "\\u003c"),
         }}
       />
       <BackLink />

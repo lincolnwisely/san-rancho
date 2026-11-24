@@ -27,6 +27,8 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: "San Rancho",
     type: "website",
+    // Default share image; product pages set their own.
+    images: ["/hero/sweatshirts.jpg"],
   },
 };
 
@@ -38,6 +40,12 @@ const organizationSchema = {
   logo: `${SITE_URL}/san-rancho-logo.svg`,
   description: "Irreverent cult-themed tees, hoodies & accessories inspired by American religious movements. Printed on demand, free US shipping.",
   email: "sup@sanrancho.com",
+  // Mirrors the returns section of /terms: made to order, no change-of-mind returns.
+  hasMerchantReturnPolicy: {
+    "@type": "MerchantReturnPolicy",
+    applicableCountry: "US",
+    returnPolicyCategory: "https://schema.org/MerchantReturnNotPermitted",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
