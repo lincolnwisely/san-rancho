@@ -8,7 +8,7 @@ import heroImg from "../../public/hero/sweatshirts.jpg";
 
 export const metadata: Metadata = {
   title: { absolute: "Cult T-Shirts, Hoodies & Merch — San Rancho" },
-  description: "Shop irreverent cult-themed tees, hoodies & accessories. Heaven's Gate, People's Temple, deconversion humor. Free US shipping.",
+  description: "Shop irreverent cult-themed tees, hoodies & accessories. Heaven's Gate, Peoples Temple, deconversion humor. Free US shipping.",
   alternates: { canonical: "/" },
 };
 // Rebuilt when the Printify webhook invalidates the product cache; daily fallback.
@@ -38,7 +38,7 @@ export default async function Home() {
         />
         <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white text-center px-6">
           {/* <p className="text-xs tracking-widest uppercase font-mono mb-4 font-bold">New arrivals</p> */}
-          <h2 className="text-3xl sm:text-4xl tracking-tight mb-6 font-bold">Minimalist cult merch</h2>
+          <h1 className="text-3xl sm:text-4xl tracking-tight mb-6 font-bold">Minimalist cult merch</h1>
           <span className="bg-white text-black border border-white px-6 py-2 text-xs tracking-widest uppercase font-mono [@media(hover:hover)]:group-hover:bg-transparent [@media(hover:hover)]:group-hover:text-white transition-colors">
             Shop Sweatshirts
           </span>

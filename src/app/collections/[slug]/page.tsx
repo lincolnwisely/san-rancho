@@ -20,7 +20,7 @@ export async function generateMetadata({
   if (!collection) return {};
 
   return {
-    title: collection.title,
+    title: collection.heading,
     description: collection.description,
     alternates: { canonical: `/collections/${slug}` },
   };
@@ -38,9 +38,12 @@ export default async function CollectionPage({
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-6 pt-8 pb-16">
       <BackLink />
-      <h1 className="mt-8 mb-12 text-sm font-bold tracking-wide uppercase">
-        {collection.title}
+      <h1 className="mt-8 mb-4 text-sm font-bold tracking-wide uppercase">
+        {collection.heading}
       </h1>
+      <p className="mb-12 max-w-2xl text-sm leading-relaxed text-foreground/70">
+        {collection.description}
+      </p>
       {products.length === 0 ? (
         <p className="text-sm text-zinc-500">Nothing here yet. Check back soon.</p>
       ) : (
