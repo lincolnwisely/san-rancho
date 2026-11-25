@@ -16,6 +16,12 @@ const nextConfig: NextConfig = {
   // showing in the link text. Not permanent, so it can be re-pointed later.
   async redirects() {
     return [
+      // Popular collection was retired; send old links and indexed URLs home.
+      {
+        source: "/collections/popular",
+        destination: "/",
+        permanent: true,
+      },
       {
         source: "/ig",
         destination: "/?utm_source=instagram&utm_medium=social",

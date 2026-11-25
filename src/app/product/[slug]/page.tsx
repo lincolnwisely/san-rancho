@@ -108,10 +108,10 @@ export default async function ProductPage({
       : undefined,
   };
 
-  // Home › first matching collection (skipping Popular, which is sales-based) › product.
+  // Home › first matching collection (cult collections come first) › product.
   const collection = (
     await Promise.all(
-      COLLECTIONS.filter((c) => c.slug !== "popular").map(async (c) =>
+      COLLECTIONS.map(async (c) =>
         (await c.select([product])).length ? c : null
       )
     )
